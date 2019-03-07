@@ -4,12 +4,14 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon run start"
+		"start": "nodemon run server.js"
 	},
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
+		"body-parser": "^1.18.3",
 		"express": "^4.16.4",
+		"mongoose": "^5.4.17",
 		"nodemon": "^1.18.10"
 	}
 }
