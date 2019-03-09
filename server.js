@@ -27,17 +27,6 @@ app.use(express.static(path.join(__dirname, "client/public")));
 
 app.use("/books", bookRoutes);
 
-// Populate booklist with books in DB
-// app.get("/", (req, res) => {
-// 	let db = req.db;
-// 	let collection = db.get("bookcollection");
-// 	collection.find({}, {}, function(e, docs) {
-// 		res.render("index.html", {
-// 			booklist: docs
-// 		});
-// 	});
-// });
-
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT);

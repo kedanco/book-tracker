@@ -7,7 +7,7 @@ exports.test = function(req, res) {
 exports.book_all = function(req, res, next) {
 	Book.find(function(err, books) {
 		if (err) return next(err);
-		res.send(books);
+		res.send({ books: books });
 	});
 };
 
