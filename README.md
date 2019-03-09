@@ -13,13 +13,26 @@ App Objectives:
 - [x] Setup Node and Express backend
 - [x] Setup Mongo DB
 - [x] Linkup backend and DB with API
-- [ ] Add-on details to Book Model
-- [ ] Setup front-end with create-react-app
+- [x] Add-on details to Book Model
+- [x] Setup front-end with create-react-app
 - [ ] Setup front-end with CRUD operations
 - [ ] Setup page structure / CSS
-- [ ] Add in Book Stats
+- [ ] Shift sensitive code into config
 - [ ] Add in User Authentication (account)
+- [ ] Add in Book Stats
+- [ ] CRUD with respective user's book collection
 - [ ] Add in OAuth
 - [ ] Add in Quick Links for book discovery
 - [ ] Review UI, Add on Animations
+- [ ] Add Book Notes and Learning Points Section
+- [ ] Share selected lists
+- [ ] Export selected lists to Excel
+- [ ] Export all details
+- [ ] Book Recommendations
 - [ ] Publish
+
+### Resources
+
+Writing CRUD for MERN['https://codeburst.io/writing-a-crud-app-with-node-js-and-mongodb-e0827cbbdafb']
+
+Adding in Create-React-App['https://medium.freecodecamp.org/how-to-make-create-react-app-work-with-a-node-backend-api-7c5c48acb1b0']

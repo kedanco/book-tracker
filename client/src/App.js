@@ -32,11 +32,7 @@ class App extends Component {
 		// this.calcBooksByGenre();
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-		// if (prevState.bookList !== this.state.bookList) {
-		// 	this.populateBookList();
-		// }
-	}
+	componentDidUpdate(prevProps, prevState) {}
 
 	getAllBooks = async () => {
 		const response = await fetch("/books");
@@ -54,8 +50,24 @@ class App extends Component {
 
 		return (
 			<div className="App">
-				<h2>Personal Book Tracker</h2>
-				<ul id="book-list">{bookList}</ul>
+				<header id="page-header">
+					<h2>Personal Book Tracker</h2>
+				</header>
+				<div id="main-book-list">
+					<ul>{bookList}</ul>
+				</div>
+
+				<div id="read-list">
+					<ul />
+				</div>
+				<div id="unread-list">
+					<ul />
+				</div>
+				<div id="wish-list">
+					<ul />
+				</div>
+				<section id="stats" />
+				<footer />
 			</div>
 		);
 	}
