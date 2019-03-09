@@ -2,9 +2,8 @@ const express = require("express");
 const path = require("path");
 var bodyParser = require("body-parser");
 var bookRoutes = require("./routes/bookRoutes");
+var bookController = require("./controllers/bookController");
 
-// var monk = require("monk");
-// var db = monk("localhost:27017/booktrackerdb1");
 const mongoose = require("mongoose");
 let dev_db_url =
 	"mongodb://bookadmin:admin123@ds261155.mlab.com:61155/booktracker";
@@ -17,21 +16,16 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 const app = express();
 
 // view engine setup
-app.engine("html", require("ejs").renderFile);
-app.set("views", path.join(__dirname, "views"));
+// app.engine("html", require("ejs").renderFile);
+// app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "html");
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname, "client/public")));
 
 app.use("/books", bookRoutes);
-// app.use("/users", usersRouter);
-
-// Make our db accessible to our router
-app.use(function(req, res, next) {
-	req.db = db;
-	next();
-});
 
 // Populate booklist with books in DB
 // app.get("/", (req, res) => {
@@ -44,9 +38,7 @@ app.use(function(req, res, next) {
 // 	});
 // });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT);
 console.log("listening on http://localhost:" + PORT);
-
-module.exports = app;

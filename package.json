@@ -4,14 +4,19 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon run server.js"
+		"server": "nodemon run server.js",
+		"client": "cd client && npm start",
+		"dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
 	},
 	"author": "",
 	"license": "ISC",
-	"devDependencies": {
+	"dependencies": {
 		"body-parser": "^1.18.3",
 		"express": "^4.16.4",
-		"mongoose": "^5.4.17",
-		"nodemon": "^1.18.10"
+		"mongoose": "^5.4.17"
+	},
+	"devDependencies": {
+		"nodemon": "^1.18.10",
+		"concurrently": "^4.0.1"
 	}
 }
