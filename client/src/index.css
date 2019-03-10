@@ -1,5 +1,6 @@
 html {
 	box-sizing: border-box;
+	height: 100vh;
 }
 
 *,
@@ -14,6 +15,7 @@ body {
 		sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	background: linear-gradient(135deg, skyblue, #1a88ee);
 }
 
 code {
@@ -54,4 +56,70 @@ button {
 	color: inherit;
 	font: inherit;
 	letter-spacing: inherit;
+}
+
+#wrapper {
+	margin: 10px auto;
+	padding: 20px;
+}
+
+#page-title {
+	/* display: inline; */
+	font-size: 2.5em;
+}
+
+#page-header {
+	/* display: inline; */
+}
+
+/* #search {
+	display: inline;
+} */
+
+#search-bar {
+	display: inline-block;
+	min-width: 400px;
+}
+
+#lists {
+	margin: 30px 30px;
+}
+
+form {
+	display: block;
+}
+
+.book-item {
+	background-color: rgba(220, 220, 220, 0.4);
+	padding: 20px;
+	margin: 10px 0px;
+	border-radius: 2px;
+}
+
+.book-item p {
+	padding-bottom: 5px;
+}
+
+.close {
+	display: inline;
+	padding: 2px 5px;
+	border-radius: 5px;
+	margin-left: 10px;
+	max-width: 10px;
+	font-size: 16px;
+	background: white;
+	color: black;
+}
+
+.close:hover {
+	cursor: pointer;
+	color: red;
+}
+
+.hide {
+	display: none;
+}
+
+.form-group {
+	margin-top: 1em;
 }

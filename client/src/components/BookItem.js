@@ -4,7 +4,8 @@ class BookItem extends React.Component {
 		let book = this.props.book;
 		return (
 			<li className={this.props.className}>
-				Title:{book.title} Author: {book.author}
+				<p>Title: {book.title}</p>
+				<p>Author: {book.author}</p>
 			</li>
 		);
 	}

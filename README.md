@@ -17,6 +17,7 @@ App Objectives:
 - [x] Setup front-end with create-react-app
 - [ ] Setup front-end with CRUD operations
 - [ ] Setup page structure / CSS
+- [ ] Add in Search function
 - [ ] Shift sensitive code into config
 - [ ] Add in User Authentication (account)
 - [ ] Add in Book Stats
