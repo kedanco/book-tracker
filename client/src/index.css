@@ -59,7 +59,7 @@ button {
 }
 
 #wrapper {
-	margin: 10px auto;
+	margin: 10px 30px;
 	padding: 20px;
 }
 
@@ -72,17 +72,27 @@ button {
 	/* display: inline; */
 }
 
-/* #search {
-	display: inline;
-} */
-
 #search-bar {
 	display: inline-block;
 	min-width: 400px;
 }
 
+#add-book-form {
+	margin: 30px 0px;
+}
+
+#checkboxes {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.switch .caption {
+	font-size: 16px;
+	padding-left: 8px;
+}
+
 #lists {
-	margin: 30px 30px;
+	margin: 30px 0px;
 }
 
 form {

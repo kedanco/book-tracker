@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import BookItem from "./components/BookItem";
-// import BookList from "./components/BookList";
 
 class App extends Component {
 	constructor(props) {
@@ -13,6 +12,8 @@ class App extends Component {
 			booksRead: 0,
 			booksByGenre: {}
 		};
+
+		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
 	componentDidMount() {
@@ -37,7 +38,7 @@ class App extends Component {
 	componentDidUpdate(prevProps, prevState) {}
 
 	getAllBooks = async () => {
-		const response = await fetch("/books");
+		const response = await fetch("/api/books");
 		const body = await response.json();
 
 		if (response.status !== 200) throw Error(body.message);
@@ -46,8 +47,26 @@ class App extends Component {
 	};
 
 	handleSubmit(evt) {
+		// let evt = document.querySelector("#add-book-form");
 		evt.preventDefault();
-		console.log(evt.target.elements);
+		const data = new FormData(evt.target);
+
+		fetch("/api/books/create", {
+			method: "POST",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(data)
+		}).then(data => {
+			console.log(data);
+		});
+
+		// const body = res.json();
+
+		// if (res.status !== 200) throw Error(body.message);
+
+		// return res;
 	}
 
 	renderBookForm() {
@@ -132,11 +151,10 @@ class App extends Component {
 									<input
 										name="tags"
 										type="text"
-										data-role="taginput"
-										defaultValue="original, series,  self-help"
+										placeholder="original, series, self-help"
 									/>
 								</div>
-								<div className="form-group cell-md-4">
+								<div id="checkboxes" className="form-group cell-md-4">
 									<input
 										name="isRead"
 										type="checkbox"

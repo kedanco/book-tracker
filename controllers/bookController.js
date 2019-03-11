@@ -16,7 +16,7 @@ exports.book_create = function(req, res, next) {
 		res.send("Book already exists in database.");
 	} else {
 		if (req.body.tags) {
-			let tagArray = req.body.tags.split(",");
+			var tagArray = req.body.tags.split(",");
 		}
 
 		let book = new Book({
