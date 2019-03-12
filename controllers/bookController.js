@@ -12,9 +12,12 @@ exports.book_all = function(req, res, next) {
 };
 
 exports.book_create = function(req, res, next) {
+	console.log("inside book create");
 	if (checkDuplicates(req.body.title, req.body.author)) {
+		console.log("duplicate");
 		res.send("Book already exists in database.");
 	} else {
+		console.log("here");
 		if (req.body.tags) {
 			var tagArray = req.body.tags.split(",");
 		}
@@ -30,8 +33,11 @@ exports.book_create = function(req, res, next) {
 			tags: tagArray
 		});
 
+		console.log(book);
+
 		book.save(function(err) {
 			if (err) {
+				console.log(err);
 				return next(err);
 			}
 			res.send("Book Created Successfully.");
@@ -39,13 +45,20 @@ exports.book_create = function(req, res, next) {
 	}
 };
 
-function checkDuplicates(title, author) {
-	let existingTitle = Book.find({ title: title, author: author });
-
-	if (existingTitle) {
-		return true;
-	}
-	return false;
+function checkDuplicates(title, author, next) {
+	Book.findOne(
+		{
+			title: title,
+			author: author
+		},
+		function(err, book) {
+			if (err) return next(err);
+			else if (book) {
+				return true;
+			}
+			return false;
+		}
+	);
 }
 
 exports.book_details = function(req, res, next) {

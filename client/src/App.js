@@ -42,31 +42,50 @@ class App extends Component {
 		const body = await response.json();
 
 		if (response.status !== 200) throw Error(body.message);
-
 		return body;
 	};
 
-	handleSubmit(evt) {
+	async handleSubmit(evt) {
 		// let evt = document.querySelector("#add-book-form");
 		evt.preventDefault();
-		const data = new FormData(evt.target);
+		let form = evt.target.elements;
 
-		fetch("/api/books/create", {
-			method: "POST",
+		if (form.title.value === "" || form.author.value === "") {
+			this.validationFailed();
+			return "Validation Failed";
+		}
+
+		const data = {
+			title: form.title.value,
+			author: form.author.value,
+			genre: form.genre.value,
+			tags: form.tags.value,
+			source: form.source.value,
+			price: form.price.value,
+			isRead: form.isRead.checked,
+			hardCopy: form.hardCopy.checked
+		};
+
+		console.log(data);
+		const res = await fetch("/api/books/create", {
+			method: "post",
 			headers: {
-				Accept: "application/json",
+				// Accept: "application/json",
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify(data)
-		}).then(data => {
-			console.log(data);
 		});
 
-		// const body = res.json();
+		// const body = await res.json();
 
 		// if (res.status !== 200) throw Error(body.message);
 
-		// return res;
+		console.log("res is " + res);
+		return res;
+	}
+
+	validationFailed() {
+		alert("Title and Author cannot be empty");
 	}
 
 	renderBookForm() {
@@ -116,7 +135,12 @@ class App extends Component {
 							</h3>
 							<div className="row">
 								<div className="form-group cell-md-6">
-									<input name="title" type="text" placeholder="Title" />
+									<input
+										name="title"
+										type="text"
+										placeholder="Title"
+										required
+									/>
 								</div>
 								<div className="form-group cell-md-6">
 									<input
@@ -124,6 +148,7 @@ class App extends Component {
 										type="text"
 										data-history="true"
 										placeholder="Author"
+										required
 									/>
 								</div>
 							</div>
