@@ -46,51 +46,52 @@ class App extends Component {
 	};
 
 	async handleSubmit(evt) {
-		// let evt = document.querySelector("#add-book-form");
-		evt.preventDefault();
-		let form = evt.target.elements;
+		try {
+			evt.preventDefault();
+			let form = evt.target;
 
-		if (form.title.value === "" || form.author.value === "") {
-			this.validationFailed();
-			return "Validation Failed";
+			const data = {
+				title: form.elements.title.value,
+				author: form.elements.author.value,
+				genre: form.elements.genre.value,
+				tags: form.elements.tags.value,
+				source: form.elements.source.value,
+				price: form.elements.price.value,
+				isRead: form.elements.isRead.checked,
+				hardCopy: form.elements.hardCopy.checked
+			};
+
+			console.log(data);
+			const res = await fetch("/api/books/create", {
+				method: "post",
+				headers: {
+					Accept: "application/json",
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(data)
+			});
+
+			const body = await res;
+
+			if (res.status === 200) {
+				form.reset();
+				this.renderBookForm();
+				document.querySelector("#form-result").innerText =
+					"Book Successfully Created.";
+			} else {
+				document.querySelector("#form-result").innerText = "Error Occured";
+			}
+
+			console.log(body);
+		} catch (err) {
+			throw Error(err);
 		}
-
-		const data = {
-			title: form.title.value,
-			author: form.author.value,
-			genre: form.genre.value,
-			tags: form.tags.value,
-			source: form.source.value,
-			price: form.price.value,
-			isRead: form.isRead.checked,
-			hardCopy: form.hardCopy.checked
-		};
-
-		console.log(data);
-		const res = await fetch("/api/books/create", {
-			method: "post",
-			headers: {
-				// Accept: "application/json",
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(data)
-		});
-
-		// const body = await res.json();
-
-		// if (res.status !== 200) throw Error(body.message);
-
-		console.log("res is " + res);
-		return res;
-	}
-
-	validationFailed() {
-		alert("Title and Author cannot be empty");
 	}
 
 	renderBookForm() {
 		document.querySelector("#add-book-form").classList.toggle("hide");
 		document.querySelector("#add-book").classList.toggle("hide");
+		document.querySelector("#form-result").innerText = "";
 	}
 
 	render() {
@@ -170,6 +171,7 @@ class App extends Component {
 										name="price"
 										type="number"
 										placeholder="Price"
+										min="0"
 									/>
 								</div>
 								<div className="form-group cell-md-4">
@@ -206,6 +208,7 @@ class App extends Component {
 								<input type="button" className="button" value="Clear" />
 							</div>
 						</form>
+						<p id="form-result" />
 					</div>
 				</header>
 				<section id="lists">
