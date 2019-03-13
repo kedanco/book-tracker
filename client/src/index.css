@@ -121,6 +121,17 @@ form {
 	color: black;
 }
 
+.error {
+	color: red;
+}
+
+#message {
+	font-size: 16px;
+	color: lightgrey;
+	float: right;
+	text-decoration: italic;
+}
+
 .close:hover {
 	cursor: pointer;
 	color: red;

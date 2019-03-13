@@ -10,13 +10,37 @@ class App extends Component {
 			unreadList: [],
 			wishList: [],
 			booksRead: 0,
-			booksByGenre: {}
+			booksByGenre: {},
+			formResult: "",
+			message: "",
+			msgClass: ""
 		};
 
 		this.handleSubmit = this.handleSubmit.bind(this);
+		// this.displayAllBooks = this.displayAllBooks.bind(this);
+		this.deleteBook = this.deleteBook.bind(this);
 	}
 
 	componentDidMount() {
+		this.displayAllBooks();
+
+		// Separate books into read,unread and wishlist
+		// Calculate numbers
+		// this.calcNumBooks();
+		// this.calcBooksByGenre();
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		if (prevState.message !== this.state.message) {
+			this.setState({ formResult: "", msgClass: "" });
+		}
+
+		if (prevState.formResult !== this.state.formResult) {
+			this.setState({ message: "", msgClass: "" });
+		}
+	}
+
+	displayAllBooks() {
 		let bookArr = [];
 		this.getAllBooks()
 			.then(res => {
@@ -28,14 +52,7 @@ class App extends Component {
 			.catch(err => console.log(err));
 
 		this.addBookButton = document.querySelector("#add-new");
-
-		// Separate books into read,unread and wishlist
-		// Calculate numbers
-		// this.calcNumBooks();
-		// this.calcBooksByGenre();
 	}
-
-	componentDidUpdate(prevProps, prevState) {}
 
 	getAllBooks = async () => {
 		const response = await fetch("/api/books");
@@ -62,8 +79,8 @@ class App extends Component {
 			};
 
 			console.log(data);
-			const res = await fetch("/api/books/create", {
-				method: "post",
+			const res = await fetch("/api/books", {
+				method: "POST",
 				headers: {
 					Accept: "application/json",
 					"Content-Type": "application/json"
@@ -76,10 +93,9 @@ class App extends Component {
 			if (res.status === 200) {
 				form.reset();
 				this.renderBookForm();
-				document.querySelector("#form-result").innerText =
-					"Book Successfully Created.";
+				this.setState({ formResult: "Book Successfully Created." });
 			} else {
-				document.querySelector("#form-result").innerText = "Error Occured";
+				this.setState({ formResult: "Error Occured", msgClass: "error" });
 			}
 
 			console.log(body);
@@ -90,13 +106,50 @@ class App extends Component {
 
 	renderBookForm() {
 		document.querySelector("#add-book-form").classList.toggle("hide");
-		document.querySelector("#add-book").classList.toggle("hide");
-		document.querySelector("#form-result").innerText = "";
+		document.querySelector("#add-book-btn").classList.toggle("hide");
+		this.setState({ formResult: "" });
+	}
+
+	async deleteBook(book) {
+		try {
+			// console.log("deleting..");
+			// console.log(book);
+
+			let [title, author] = [book.title, book.author];
+
+			const res = await fetch(`/api/books/${book._id}`, {
+				method: "delete",
+				headers: {
+					Accept: "application/json",
+					"Content-Type": "application/json"
+				}
+			});
+
+			console.log(res);
+
+			if (res.status === 200) {
+				this.displayAllBooks();
+				this.setState({
+					message: `${title} by ${author} Successfully Deleted`
+				});
+			} else {
+				this.setState({
+					message: `There was an error deleting ${title} by ${author}`
+				});
+			}
+		} catch (err) {
+			throw Error(err);
+		}
 	}
 
 	render() {
 		let bookList = this.state.bookList.map((book, i) => (
-			<BookItem key={i} className="book-item" book={book} />
+			<BookItem
+				key={i}
+				className="book-item"
+				book={book}
+				deleteBook={this.deleteBook}
+			/>
 		));
 
 		return (
@@ -118,7 +171,7 @@ class App extends Component {
 					<div id="actions">
 						<button
 							className="button success"
-							id="add-book"
+							id="add-book-btn"
 							onClick={() => this.renderBookForm()}
 						>
 							+ Add Book
@@ -208,12 +261,17 @@ class App extends Component {
 								<input type="button" className="button" value="Clear" />
 							</div>
 						</form>
-						<p id="form-result" />
+						<span id="form-result">{this.state.formResult}</span>
 					</div>
 				</header>
 				<section id="lists">
 					<div id="main-book-list">
-						<h3 className="list-title">All Books</h3>
+						<h3 className="list-title">
+							All Books{" "}
+							<span id="message" className={this.state.msgClass}>
+								{this.state.message}
+							</span>
+						</h3>
 						<ul>{bookList}</ul>
 					</div>
 

@@ -11,41 +11,41 @@ exports.book_all = function(req, res, next) {
 	});
 };
 
-exports.book_create = function(req, res, next) {
-	checkDuplicates(req.body.title, req.body.author).then(dup => {
-		console.log(dup);
-		if (dup) {
-			console.log("duplicate");
-			res.send("Book already exists in database.");
-			next("Book existsssss");
-		} else {
-			console.log("here");
-			if (req.body.tags) {
-				var tagArray = req.body.tags.split(",");
-			}
+exports.book_create = async function(req, res, next) {
+	let result = await checkDuplicates(req.body.title, req.body.author);
 
-			let book = new Book({
-				title: req.body.title,
-				author: req.body.author,
-				isRead: req.body.isRead,
-				hardCopy: req.body.hardCopy,
-				source: req.body.source,
-				genre: req.body.genre,
-				price: req.body.price,
-				tags: tagArray
-			});
-
-			console.log(book);
-
-			book.save(function(err) {
-				if (err) {
-					console.log(err);
-					return next(err);
-				}
-				res.send("Book Created Successfully.");
-			});
+	const dup = await result;
+	// console.log("dup" + dup);
+	if (dup) {
+		console.log("duplicate");
+		res.send("Book already exists in database.");
+	} else {
+		// console.log("here");
+		if (req.body.tags) {
+			var tagArray = req.body.tags.split(",");
 		}
-	});
+
+		let book = new Book({
+			title: req.body.title,
+			author: req.body.author,
+			isRead: req.body.isRead,
+			hardCopy: req.body.hardCopy,
+			source: req.body.source,
+			genre: req.body.genre,
+			price: req.body.price,
+			tags: tagArray
+		});
+
+		// console.log(book);
+
+		book.save(function(err) {
+			if (err) {
+				console.log(err);
+				return next(err);
+			}
+			res.send("Book Created Successfully.");
+		});
+	}
 };
 
 function checkDuplicates(title, author, next) {
@@ -57,6 +57,7 @@ function checkDuplicates(title, author, next) {
 		function(err, book) {
 			if (err) return next(err);
 
+			console.log(book);
 			if (book) {
 				console.log("Duplicate found");
 				return true;
@@ -87,6 +88,7 @@ exports.book_update = function(req, res, next) {
 	) {
 		if (err) return next(err);
 		res.send("Book Updated");
+		return book;
 	});
 };
 
