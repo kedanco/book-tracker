@@ -1,9 +1,5 @@
 const Book = require("../models/bookModel");
 
-exports.test = function(req, res) {
-	res.send("Testing Testing 123");
-};
-
 exports.book_all = function(req, res, next) {
 	Book.find(function(err, books) {
 		if (err) return next(err);
@@ -12,61 +8,59 @@ exports.book_all = function(req, res, next) {
 };
 
 exports.book_create = async function(req, res, next) {
-	let result = await checkDuplicates(req.body.title, req.body.author);
+	try {
+		let dup = await checkDuplicates(req.body.title, req.body.author);
 
-	const dup = await result;
-	// console.log("dup" + dup);
-	if (dup) {
-		console.log("duplicate");
-		res.send("Book already exists in database.");
-	} else {
-		// console.log("here");
-		if (req.body.tags) {
-			var tagArray = req.body.tags.split(",");
-		}
-
-		let book = new Book({
-			title: req.body.title,
-			author: req.body.author,
-			isRead: req.body.isRead,
-			hardCopy: req.body.hardCopy,
-			source: req.body.source,
-			genre: req.body.genre,
-			price: req.body.price,
-			tags: tagArray
-		});
-
-		// console.log(book);
-
-		book.save(function(err) {
-			if (err) {
-				console.log(err);
-				return next(err);
+		if (dup) {
+			console.log("duplicate");
+			res.send({ error: "Book already exists in database." });
+		} else {
+			if (req.body.tags) {
+				var tagArray = req.body.tags.split(",");
 			}
-			res.send("Book Created Successfully.");
-		});
+
+			let book = new Book({
+				title: req.body.title,
+				author: req.body.author,
+				isRead: req.body.isRead,
+				hardCopy: req.body.hardCopy,
+				source: req.body.source,
+				genre: req.body.genre,
+				price: req.body.price,
+				tags: tagArray
+			});
+
+			// console.log(book);
+
+			book.save(function(err) {
+				if (err) {
+					console.log(err);
+					return next(err);
+				}
+				res.send({ message: "Book Created Successfully." });
+			});
+		}
+	} catch (err) {
+		throw Error(err);
 	}
 };
 
-function checkDuplicates(title, author, next) {
-	Book.findOne(
-		{
-			title: title,
-			author: author
-		},
-		function(err, book) {
-			if (err) return next(err);
-
-			console.log(book);
-			if (book) {
-				console.log("Duplicate found");
-				return true;
-			} else {
-				console.log("Not found");
-				return false;
+function checkDuplicates(title, author, callback) {
+	return new Promise(function(res, rej) {
+		Book.findOne(
+			{
+				title: title,
+				author: author
+			},
+			function(err, book) {
+				if (err) {
+					rej(err);
+				} else {
+					res(book);
+				}
 			}
-		}
-	);
+		);
+	});
 }
 
 exports.book_details = function(req, res, next) {
@@ -97,9 +91,4 @@ exports.book_delete = function(req, res, next) {
 		if (err) return next(err);
 		res.send("Deleted Successfully");
 	});
-};
-
-exports.getOne = function(req, res, next) {
-	var book = req.book.toJson();
-	res.json(book.toJson());
 };

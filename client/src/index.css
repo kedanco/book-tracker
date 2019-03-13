@@ -1,6 +1,5 @@
 html {
 	box-sizing: border-box;
-	height: 100vh;
 }
 
 *,
@@ -16,6 +15,7 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	background: linear-gradient(135deg, skyblue, #1a88ee);
+	height: 100%;
 }
 
 code {
@@ -125,9 +125,10 @@ form {
 	color: red;
 }
 
-#message {
+#message,
+#form-result {
 	font-size: 16px;
-	color: lightgrey;
+	color: rgb(75, 75, 75);
 	float: right;
 	text-decoration: italic;
 }
@@ -141,6 +142,19 @@ form {
 	display: none;
 }
 
+.delete-fade {
+	animation: 0.7s linear 0s 1 normal forwards delete-fade;
+}
+
 .form-group {
 	margin-top: 1em;
+}
+
+@keyframes delete-fade {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
 }

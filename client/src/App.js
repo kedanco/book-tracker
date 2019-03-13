@@ -17,7 +17,7 @@ class App extends Component {
 		};
 
 		this.handleSubmit = this.handleSubmit.bind(this);
-		// this.displayAllBooks = this.displayAllBooks.bind(this);
+		this.displayAllBooks = this.displayAllBooks.bind(this);
 		this.deleteBook = this.deleteBook.bind(this);
 	}
 
@@ -28,6 +28,10 @@ class App extends Component {
 		// Calculate numbers
 		// this.calcNumBooks();
 		// this.calcBooksByGenre();
+
+		this.addBookButton = document.querySelector("#add-new");
+		this.formResult = document.querySelector("#form-result");
+		this.message = document.querySelector("#message");
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -50,8 +54,6 @@ class App extends Component {
 				this.setState({ bookList: bookArr });
 			})
 			.catch(err => console.log(err));
-
-		this.addBookButton = document.querySelector("#add-new");
 	}
 
 	getAllBooks = async () => {
@@ -88,17 +90,21 @@ class App extends Component {
 				body: JSON.stringify(data)
 			});
 
-			const body = await res;
+			const body = await res.json();
 
 			if (res.status === 200) {
-				form.reset();
-				this.renderBookForm();
-				this.setState({ formResult: "Book Successfully Created." });
+				console.log(body);
+				if (body.error) {
+					this.setState({ formResult: body.error });
+				} else {
+					form.reset();
+					this.renderBookForm();
+					this.setState({ formResult: body.message });
+					this.displayAllBooks();
+				}
 			} else {
 				this.setState({ formResult: "Error Occured", msgClass: "error" });
 			}
-
-			console.log(body);
 		} catch (err) {
 			throw Error(err);
 		}
@@ -110,10 +116,9 @@ class App extends Component {
 		this.setState({ formResult: "" });
 	}
 
-	async deleteBook(book) {
+	async deleteBook(element, book) {
 		try {
-			// console.log("deleting..");
-			// console.log(book);
+			// console.log(element);
 
 			let [title, author] = [book.title, book.author];
 
@@ -125,13 +130,17 @@ class App extends Component {
 				}
 			});
 
-			console.log(res);
+			console.log(book);
 
 			if (res.status === 200) {
-				this.displayAllBooks();
 				this.setState({
 					message: `${title} by ${author} Successfully Deleted`
 				});
+				element.parentElement.classList.add("delete-fade");
+
+				setTimeout(() => {
+					this.displayAllBooks();
+				}, 800);
 			} else {
 				this.setState({
 					message: `There was an error deleting ${title} by ${author}`
