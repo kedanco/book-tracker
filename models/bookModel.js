@@ -6,6 +6,7 @@ let BookSchema = new Schema({
 	author: { type: String, required: true },
 	isRead: { type: Boolean, default: false },
 	hardCopy: { type: Boolean, default: true },
+	inWishList: {type: Boolean, default: false},
 	source: { type: String },
 	genre: { type: String },
 	price: { type: Number },

@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "client/public")));
 
-app.use("/api/books", bookRoutes);
+app.use("/books", bookRoutes);
 
 const PORT = process.env.PORT || 5000;
 
