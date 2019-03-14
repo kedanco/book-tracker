@@ -45,19 +45,24 @@ class App extends Component {
 	}
 
 	displayAllBooks() {
-		let bookArr = [];
+		let bookArr = [],
+			wishList = [];
 		this.getAllBooks()
 			.then(res => {
 				res.books.forEach(book => {
-					bookArr.push(book);
+					if (book.inWishList) {
+						wishList.push(book);
+					} else {
+						bookArr.push(book);
+					}
 				});
-				this.setState({ bookList: bookArr });
+				this.setState({ bookList: bookArr, wishList: wishList });
 			})
 			.catch(err => console.log(err));
 	}
 
 	getAllBooks = async () => {
-		const response = await fetch("/api/books");
+		const response = await fetch("/books");
 		const body = await response.json();
 
 		if (response.status !== 200) throw Error(body.message);
@@ -81,7 +86,7 @@ class App extends Component {
 			};
 
 			console.log(data);
-			const res = await fetch("/api/books", {
+			const res = await fetch("/books", {
 				method: "POST",
 				headers: {
 					Accept: "application/json",
@@ -122,7 +127,7 @@ class App extends Component {
 
 			let [title, author] = [book.title, book.author];
 
-			const res = await fetch(`/api/books/${book._id}`, {
+			const res = await fetch(`/books/${book._id}`, {
 				method: "delete",
 				headers: {
 					Accept: "application/json",
@@ -151,8 +156,8 @@ class App extends Component {
 		}
 	}
 
-	render() {
-		let bookList = this.state.bookList.map((book, i) => (
+	renderList(list) {
+		return list.map((book, i) => (
 			<BookItem
 				key={i}
 				className="book-item"
@@ -160,10 +165,16 @@ class App extends Component {
 				deleteBook={this.deleteBook}
 			/>
 		));
+	}
+
+	render() {
+		let bookList = this.renderList(this.state.bookList);
+
+		let wishList = this.renderList(this.state.wishList);
 
 		return (
 			<div id="wrapper" className="App">
-				<header id="page-header">
+				<header id="nav">
 					<form className="inline-form">
 						<h2 id="page-title">Personal Book Tracker</h2>{" "}
 						<div id="search">
@@ -177,125 +188,122 @@ class App extends Component {
 							/>
 						</div>
 					</form>
-					<div id="actions">
-						<button
-							className="button success"
-							id="add-book-btn"
-							onClick={() => this.renderBookForm()}
-						>
-							+ Add Book
-						</button>
-						<form
-							id="add-book-form"
-							onSubmit={e => this.handleSubmit(e)}
-							className="hide"
-						>
-							<h3>
-								Add A New Book{" "}
-								<div className="close" onClick={e => this.renderBookForm(e)}>
-									X
-								</div>
-							</h3>
-							<div className="row">
-								<div className="form-group cell-md-6">
-									<input
-										name="title"
-										type="text"
-										placeholder="Title"
-										required
-									/>
-								</div>
-								<div className="form-group cell-md-6">
-									<input
-										name="author"
-										type="text"
-										data-history="true"
-										placeholder="Author"
-										required
-									/>
-								</div>
-							</div>
-
-							<div className="row">
-								<div className="form-group cell-md-6">
-									<input name="source" type="text" placeholder="Source" />
-								</div>
-								<div className="form-group cell-md-6">
-									<input name="genre" type="text" placeholder="Genre" />
-								</div>
-							</div>
-
-							<div className="row ">
-								<div className="form-group cell-md-4">
-									<input
-										data-role="input"
-										data-prepend="<span class='mif-dollar2'></span>"
-										name="price"
-										type="number"
-										placeholder="Price"
-										min="0"
-									/>
-								</div>
-								<div className="form-group cell-md-4">
-									<input
-										name="tags"
-										type="text"
-										placeholder="original, series, self-help"
-									/>
-								</div>
-								<div id="checkboxes" className="form-group cell-md-4">
-									<input
-										name="isRead"
-										type="checkbox"
-										data-role="switch"
-										data-caption="Read It?"
-									/>
-									<input
-										name="hardCopy"
-										type="checkbox"
-										data-role="switch"
-										data-caption="Hard Copy?"
-									/>
-								</div>
-							</div>
-
-							<div className="form-group">
-								<button
-									className="button success"
-									id="submit-book"
-									type="submit"
-								>
-									Add Book
-								</button>
-								<input type="button" className="button" value="Clear" />
-							</div>
-						</form>
-						<span id="form-result">{this.state.formResult}</span>
-					</div>
 				</header>
-				<section id="lists">
-					<div id="main-book-list">
-						<h3 className="list-title">
-							All Books{" "}
+				<div id="main-content">
+					<section id="page-header">
+						<div id="actions">
+							<button
+								className="button success"
+								id="add-book-btn"
+								onClick={() => this.renderBookForm()}
+							>
+								+ Add Book
+							</button>
+							<form
+								id="add-book-form"
+								onSubmit={e => this.handleSubmit(e)}
+								className="hide"
+							>
+								<h3>
+									Add A New Book{" "}
+									<div className="close" onClick={e => this.renderBookForm(e)}>
+										X
+									</div>
+								</h3>
+								<div className="row">
+									<div className="form-group cell-md-6">
+										<input
+											name="title"
+											type="text"
+											placeholder="Title"
+											required
+										/>
+									</div>
+									<div className="form-group cell-md-6">
+										<input
+											name="author"
+											type="text"
+											data-history="true"
+											placeholder="Author"
+											required
+										/>
+									</div>
+								</div>
+
+								<div className="row">
+									<div className="form-group cell-md-6">
+										<input name="source" type="text" placeholder="Source" />
+									</div>
+									<div className="form-group cell-md-6">
+										<input name="genre" type="text" placeholder="Genre" />
+									</div>
+								</div>
+
+								<div className="row ">
+									<div className="form-group cell-md-4">
+										<input
+											data-role="input"
+											data-prepend="<span class='mif-dollar2'></span>"
+											name="price"
+											type="number"
+											placeholder="Price"
+											min="0"
+										/>
+									</div>
+									<div className="form-group cell-md-4">
+										<input
+											name="tags"
+											type="text"
+											placeholder="original, series, self-help"
+										/>
+									</div>
+									<div id="checkboxes" className="form-group cell-md-4">
+										<input
+											name="isRead"
+											type="checkbox"
+											data-role="switch"
+											data-caption="Read It?"
+										/>
+										<input
+											name="hardCopy"
+											type="checkbox"
+											data-role="switch"
+											data-caption="Hard Copy?"
+										/>
+									</div>
+								</div>
+
+								<div className="form-group">
+									<button
+										className="button success"
+										id="submit-book"
+										type="submit"
+									>
+										Add Book
+									</button>
+									<input type="button" className="button" value="Clear" />
+								</div>
+							</form>
+							<span id="form-result">{this.state.formResult}</span>
 							<span id="message" className={this.state.msgClass}>
 								{this.state.message}
 							</span>
-						</h3>
-						<ul>{bookList}</ul>
-					</div>
+						</div>
+					</section>
+					<section id="lists">
+						<div id="main-book-list">
+							<h3 className="list-title">All Books </h3>
+							<ul id="book-list-ul">{bookList}</ul>
+						</div>
 
-					<div id="read-list">
-						<ul />
-					</div>
-					<div id="unread-list">
-						<ul />
-					</div>
-					<div id="wish-list">
-						<ul />
-					</div>
-				</section>
-				<section id="stats" />
-				<footer />
+						<div id="wish-list">
+							<h3 className="list-title">Wishlist</h3>
+							<ul id="wish-list-ul">{wishList}</ul>
+						</div>
+					</section>
+					<section id="stats" />
+					<footer />
+				</div>
 			</div>
 		);
 	}

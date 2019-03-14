@@ -1,5 +1,15 @@
+:root {
+	--bg-color: white;
+	--main-color1: #544cb5;
+	--sub-color1: #4c7cb5;
+	--main-color2: #fa6e18;
+	--sub-color2: #c2a382;
+}
+
 html {
 	box-sizing: border-box;
+	height: 100%;
+	overflow-y: auto;
 }
 
 *,
@@ -14,7 +24,7 @@ body {
 		sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	background: linear-gradient(135deg, skyblue, #1a88ee);
+	background: var(--bg-color);
 	height: 100%;
 }
 
@@ -58,18 +68,27 @@ button {
 	letter-spacing: inherit;
 }
 
-#wrapper {
-	margin: 10px 30px;
-	padding: 20px;
+#nav {
+	width: 100vw;
+	padding: 20px 80px;
+	background-color: var(--main-color2);
 }
 
-#page-title {
-	/* display: inline; */
-	font-size: 2.5em;
+#main-content {
+	margin: 10px 50px;
+	padding: 30px;
+
+	display: grid;
+	grid-template-rows: 1fr auto;
 }
 
 #page-header {
-	/* display: inline; */
+	display: flex;
+	flex-direction: column;
+}
+
+#page-title {
+	font-size: 2em;
 }
 
 #search-bar {
@@ -79,6 +98,10 @@ button {
 
 #add-book-form {
 	margin: 30px 0px;
+}
+
+.form-group {
+	margin-top: 1em;
 }
 
 #checkboxes {
@@ -93,6 +116,28 @@ button {
 
 #lists {
 	margin: 30px 0px;
+	display: grid;
+	grid-template-columns: 1.7fr 1fr;
+	grid-gap: 0px 20px;
+}
+
+#main-book-list {
+	display: grid;
+	grid-column: 1/2;
+}
+
+#wish-list {
+	display: grid;
+	grid-column: 2/3;
+	grid-template-rows: 1fr 10fr;
+}
+
+#book-list-ul,
+#wish-list-ul {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, 240px);
+	grid-gap: 10px;
+	grid-auto-flow: rows;
 }
 
 form {
@@ -100,29 +145,49 @@ form {
 }
 
 .book-item {
-	background-color: rgba(220, 220, 220, 0.4);
 	padding: 20px;
 	margin: 10px 0px;
-	border-radius: 2px;
+	border-radius: 4px;
+	border: 1px solid rgba(128, 128, 128, 0.5);
+	width: 240px;
+	height: 380px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.book-image {
+	position: relative;
+	margin: 10px auto;
 }
 
 .book-item p {
 	padding-bottom: 5px;
+	align-self: center;
 }
 
-.close {
+.wrap {
+	display: flex;
+	justify-content: center;
+	padding: 5px;
+}
+
+.book-author {
+	color: #888;
+}
+
+.book-actions {
+	position: relative;
+	align-self: flex-end;
+}
+
+.close,
+.edit {
 	display: inline;
-	padding: 2px 5px;
-	border-radius: 5px;
-	margin-left: 10px;
+	padding: 5px 5px;
+	margin: 10px 10px;
 	max-width: 10px;
 	font-size: 16px;
-	background: white;
-	color: black;
-}
-
-.error {
-	color: red;
 }
 
 #message,
@@ -138,16 +203,23 @@ form {
 	color: red;
 }
 
+.edit:hover {
+	cursor: pointer;
+	color: blue;
+}
+
+/* Miscellaneous Classes */
+
+.error {
+	color: red;
+}
+
 .hide {
 	display: none;
 }
 
 .delete-fade {
 	animation: 0.7s linear 0s 1 normal forwards delete-fade;
-}
-
-.form-group {
-	margin-top: 1em;
 }
 
 @keyframes delete-fade {
