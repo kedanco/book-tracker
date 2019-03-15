@@ -106,12 +106,12 @@ button {
 
 #checkboxes {
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: space-around;
 }
 
 .switch .caption {
 	font-size: 16px;
-	padding-left: 8px;
+	padding-left: 4px;
 }
 
 #lists {

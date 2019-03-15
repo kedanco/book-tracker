@@ -81,6 +81,7 @@ class App extends Component {
 				tags: form.elements.tags.value,
 				source: form.elements.source.value,
 				price: form.elements.price.value,
+				inWishList: form.elements.inWishList.checked,
 				isRead: form.elements.isRead.checked,
 				hardCopy: form.elements.hardCopy.checked
 			};
@@ -206,9 +207,10 @@ class App extends Component {
 							>
 								<h3>
 									Add A New Book{" "}
-									<div className="close" onClick={e => this.renderBookForm(e)}>
-										X
-									</div>
+									<div
+										className="close mif-cross mif-2x"
+										onClick={e => this.renderBookForm(e)}
+									/>
 								</h3>
 								<div className="row">
 									<div className="form-group cell-md-6">
@@ -231,15 +233,12 @@ class App extends Component {
 								</div>
 
 								<div className="row">
-									<div className="form-group cell-md-6">
+									<div className="form-group cell-md-4">
 										<input name="source" type="text" placeholder="Source" />
 									</div>
-									<div className="form-group cell-md-6">
+									<div className="form-group cell-md-4">
 										<input name="genre" type="text" placeholder="Genre" />
 									</div>
-								</div>
-
-								<div className="row ">
 									<div className="form-group cell-md-4">
 										<input
 											data-role="input"
@@ -250,14 +249,23 @@ class App extends Component {
 											min="0"
 										/>
 									</div>
-									<div className="form-group cell-md-4">
+								</div>
+
+								<div className="row ">
+									<div className="form-group cell-md-5">
 										<input
 											name="tags"
 											type="text"
 											placeholder="original, series, self-help"
 										/>
 									</div>
-									<div id="checkboxes" className="form-group cell-md-4">
+									<div id="checkboxes" className="form-group cell-md-7">
+										<input
+											name="inWishList"
+											type="checkbox"
+											data-role="switch"
+											data-caption="Wishlist?"
+										/>
 										<input
 											name="isRead"
 											type="checkbox"
