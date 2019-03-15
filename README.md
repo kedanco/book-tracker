@@ -18,7 +18,7 @@ App Objectives:
 - [ ] Setup front-end with CRUD operations
 - [ ] Setup page structure / CSS
 - [ ] Add in Search function
-- [ ] Shift sensitive code into config
+- [ ] Shift config,auth,settings code into config
 - [ ] Add in User Authentication (account)
 - [ ] Add in Book Stats
 - [ ] CRUD with respective user's book collection
@@ -37,3 +37,5 @@ App Objectives:
 Writing CRUD for MERN['https://codeburst.io/writing-a-crud-app-with-node-js-and-mongodb-e0827cbbdafb']
 
 Adding in Create-React-App['https://medium.freecodecamp.org/how-to-make-create-react-app-work-with-a-node-backend-api-7c5c48acb1b0']
+
+Mongoose UserModel['https://thinkster.io/tutorials/node-json-api/creating-the-user-model']

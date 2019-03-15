@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 var bodyParser = require("body-parser");
 var bookRoutes = require("./routes/bookRoutes");
-var bookController = require("./controllers/bookController");
+var userRoutes = require("./routes/userRoutes");
 
 const mongoose = require("mongoose");
 let dev_db_url =
@@ -15,8 +15,6 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 const app = express();
 
-// view engine setup
-// app.engine("html", require("ejs").renderFile);
 // app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "html");
 
@@ -26,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "client/public")));
 
 app.use("/books", bookRoutes);
+app.use("/users", userRoutes);
 
 const PORT = process.env.PORT || 5000;
 
