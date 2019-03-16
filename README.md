@@ -34,8 +34,8 @@ App Objectives:
 
 ### Resources
 
-Writing CRUD for MERN['https://codeburst.io/writing-a-crud-app-with-node-js-and-mongodb-e0827cbbdafb']
+Writing CRUD with Node and Mongo['https://codeburst.io/writing-a-crud-app-with-node-js-and-mongodb-e0827cbbdafb']
 
-Adding in Create-React-App['https://medium.freecodecamp.org/how-to-make-create-react-app-work-with-a-node-backend-api-7c5c48acb1b0']
+Adding Create-React-App['https://medium.freecodecamp.org/how-to-make-create-react-app-work-with-a-node-backend-api-7c5c48acb1b0']
 
 Mongoose UserModel['https://thinkster.io/tutorials/node-json-api/creating-the-user-model']

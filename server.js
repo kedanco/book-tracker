@@ -3,6 +3,7 @@ const path = require("path");
 var bodyParser = require("body-parser");
 var bookRoutes = require("./routes/bookRoutes");
 var userRoutes = require("./routes/userRoutes");
+require("./config/passport");
 
 const mongoose = require("mongoose");
 let dev_db_url =
