@@ -1,7 +1,7 @@
 var passport = require("passport");
-var localStrategy = require("passport-local").Strategy;
+var LocalStrategy = require("passport-local").Strategy;
 var mongoose = require("mongoose");
-var User = mongoose.model("User");
+var Users = require("../models/userModel");
 
 passport.use(
 	new LocalStrategy(
@@ -10,7 +10,7 @@ passport.use(
 			passwordField: "user[password]"
 		},
 		function(username, password, done) {
-			User.findOne({ username: username })
+			Users.findOne({ username: username })
 				.then(function(user) {
 					if (!user || !user.validPassword(password)) {
 						return done(null, false, {

@@ -62,10 +62,10 @@ UserSchema.methods.generateJWT = function() {
 
 UserSchema.methods.toAuthJSON = function() {
 	return {
+		_id: this._id,
 		username: this.username,
-		// email: this.email,
 		token: this.generateJWT()
 	};
 };
 
-module.exports = mongoose.model("Book", UserSchema);
+module.exports = mongoose.model("Users", UserSchema);

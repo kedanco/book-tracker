@@ -1,9 +1,6 @@
 const express = require("express");
 const path = require("path");
 var bodyParser = require("body-parser");
-var bookRoutes = require("./routes/bookRoutes");
-var userRoutes = require("./routes/userRoutes");
-require("./config/passport");
 
 const mongoose = require("mongoose");
 let dev_db_url =
@@ -14,9 +11,14 @@ mongoose.Promise = global.Promise;
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
+var bookRoutes = require("./routes/bookRoutes");
+var userRoutes = require("./routes/userRoutes");
+require("./models/bookModel");
+require("./models/userModel");
+require("./config/passport");
+
 const app = express();
 
-// app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "html");
 
 app.use(bodyParser.json());

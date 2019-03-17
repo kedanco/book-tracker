@@ -18,7 +18,9 @@
 		"mongoose-unique-validator": "^2.0.2"
 	},
 	"devDependencies": {
+		"concurrently": "^4.0.1",
+		"express-jwt": "^5.3.1",
 		"nodemon": "^1.18.10",
-		"concurrently": "^4.0.1"
+		"passport-local": "^1.0.0"
 	}
 }
