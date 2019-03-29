@@ -158,6 +158,10 @@ class App extends Component {
 	}
 
 	renderList(list) {
+		if (list.length === 0) {
+			return <span className="desc">You have not added any books</span>;
+		}
+
 		return list.map((book, i) => (
 			<BookItem
 				key={i}
@@ -245,6 +249,7 @@ class App extends Component {
 											data-prepend="<span class='mif-dollar2'></span>"
 											name="price"
 											type="number"
+											step="0.01"
 											placeholder="Price"
 											min="0"
 										/>
@@ -253,11 +258,7 @@ class App extends Component {
 
 								<div className="row ">
 									<div className="form-group cell-md-5">
-										<input
-											name="tags"
-											type="text"
-											placeholder="original, series, self-help"
-										/>
+										<input name="tags" type="text" placeholder="Tags" />
 									</div>
 									<div id="checkboxes" className="form-group cell-md-7">
 										<input
@@ -300,12 +301,16 @@ class App extends Component {
 					</section>
 					<section id="lists">
 						<div id="main-book-list">
-							<h3 className="list-title">All Books </h3>
+							<h3 className="list-title">
+								All Books ({this.state.bookList.length}){" "}
+							</h3>
 							<ul id="book-list-ul">{bookList}</ul>
 						</div>
 
 						<div id="wish-list">
-							<h3 className="list-title">Wishlist</h3>
+							<h3 className="list-title">
+								Wishlist ({this.state.wishList.length})
+							</h3>
 							<ul id="wish-list-ul">{wishList}</ul>
 						</div>
 					</section>

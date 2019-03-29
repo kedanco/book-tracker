@@ -16,13 +16,11 @@ App Objectives:
 - [x] Add-on details to Book Model
 - [x] Setup front-end with create-react-app
 - [ ] Setup front-end with CRUD operations
+- [ ] Add Mongoose currency
 - [ ] Setup page structure / CSS
 - [ ] Add in Search function
-- [ ] Shift config,auth,settings code into config
-- [ ] Add in User Authentication (account)
+- [ ] Shift sensitive code into config
 - [ ] Add in Book Stats
-- [ ] CRUD with respective user's book collection
-- [ ] Add in OAuth
 - [ ] Add in Quick Links for book discovery
 - [ ] Review UI, Add on Animations
 - [ ] Add Book Notes and Learning Points Section
@@ -34,8 +32,6 @@ App Objectives:
 
 ### Resources
 
-Writing CRUD with Node and Mongo['https://codeburst.io/writing-a-crud-app-with-node-js-and-mongodb-e0827cbbdafb']
+Writing CRUD for MERN['https://codeburst.io/writing-a-crud-app-with-node-js-and-mongodb-e0827cbbdafb']
 
-Adding Create-React-App['https://medium.freecodecamp.org/how-to-make-create-react-app-work-with-a-node-backend-api-7c5c48acb1b0']
-
-Mongoose UserModel['https://thinkster.io/tutorials/node-json-api/creating-the-user-model']
+Adding in Create-React-App['https://medium.freecodecamp.org/how-to-make-create-react-app-work-with-a-node-backend-api-7c5c48acb1b0']
