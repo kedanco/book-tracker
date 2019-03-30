@@ -15,9 +15,9 @@ App Objectives:
 - [x] Linkup backend and DB with API
 - [x] Add-on details to Book Model
 - [x] Setup front-end with create-react-app
+- [x] Setup page structure / CSS
 - [ ] Setup front-end with CRUD operations
 - [ ] Add Mongoose currency
-- [ ] Setup page structure / CSS
 - [ ] Add in Search function
 - [ ] Shift sensitive code into config
 - [ ] Add in Book Stats

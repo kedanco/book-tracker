@@ -13,7 +13,10 @@ class BookItem extends React.Component {
 					}}
 				/>
 				<div className="book-actions">
-					<span className="edit mif-pencil mif-2x" />
+					<span
+						className="edit mif-pencil mif-2x"
+						onClick={e => this.props.renderEditForm(book)}
+					/>
 					<div
 						className="close mif-cross mif-2x"
 						onClick={e => this.props.deleteBook(e.target, book)}

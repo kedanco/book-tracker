@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import BookItem from "./components/BookItem";
+import EditForm from "./components/EditForm";
 
 class App extends Component {
 	constructor(props) {
@@ -13,12 +14,15 @@ class App extends Component {
 			booksByGenre: {},
 			formResult: "",
 			message: "",
-			msgClass: ""
+			msgClass: "",
+			editForm: ""
 		};
 
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.displayAllBooks = this.displayAllBooks.bind(this);
 		this.deleteBook = this.deleteBook.bind(this);
+		// this.renderBookForm = this.renderEditForm.bind(this);
+		// this.renderList = this.renderList.bind(this);
 	}
 
 	componentDidMount() {
@@ -69,10 +73,13 @@ class App extends Component {
 		return body;
 	};
 
-	async handleSubmit(evt) {
+	async handleSubmit(evt, option, id = null) {
 		try {
 			evt.preventDefault();
 			let form = evt.target;
+			let res,
+				method,
+				url = "";
 
 			const data = {
 				title: form.elements.title.value,
@@ -87,8 +94,16 @@ class App extends Component {
 			};
 
 			console.log(data);
-			const res = await fetch("/books", {
-				method: "POST",
+			if (option === "add") {
+				url = "/books";
+				method = "POST";
+			} else if (option === "edit") {
+				url = `/books/${id}`;
+				method = "PUT";
+			}
+
+			res = await fetch(url, {
+				method: method,
 				headers: {
 					Accept: "application/json",
 					"Content-Type": "application/json"
@@ -121,6 +136,20 @@ class App extends Component {
 		document.querySelector("#add-book-btn").classList.toggle("hide");
 		this.setState({ formResult: "" });
 	}
+
+	renderEditForm = book => {
+		console.log(book);
+		document.querySelector("#page-header").classList.add("hide");
+		document.querySelector("#lists").classList.add("hide");
+
+		let form = (
+			<div>
+				<EditForm book={book} />
+			</div>
+		);
+
+		this.setState({ editForm: form });
+	};
 
 	async deleteBook(element, book) {
 		try {
@@ -168,6 +197,7 @@ class App extends Component {
 				className="book-item"
 				book={book}
 				deleteBook={this.deleteBook}
+				renderEditForm={this.renderEditForm}
 			/>
 		));
 	}
@@ -206,7 +236,7 @@ class App extends Component {
 							</button>
 							<form
 								id="add-book-form"
-								onSubmit={e => this.handleSubmit(e)}
+								onSubmit={e => this.handleSubmit(e, "add")}
 								className="hide"
 							>
 								<h3>
@@ -314,6 +344,7 @@ class App extends Component {
 							<ul id="wish-list-ul">{wishList}</ul>
 						</div>
 					</section>
+					<section id="editForm">{this.state.editForm}</section>
 					<section id="stats" />
 					<footer />
 				</div>

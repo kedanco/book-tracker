@@ -228,7 +228,7 @@ form {
 }
 
 .hide {
-	display: none;
+	display: none !important;
 }
 
 .delete-fade {
