@@ -3,18 +3,23 @@ import React from "react";
 class EditForm extends React.Component {
 	render() {
 		let book = this.props.book;
-		let tags;
+		let tags = "";
 		book.tags.forEach(tag => {
-			tags += tag + ", ";
+			console.log(`${tags} ${tag} `);
+			book.tags.length > 1 ? (tags += tag + ", ") : (tags = tag);
 		});
 
 		return (
 			<div>
 				<form
 					id="edit-book-form"
-					onSubmit={e => this.handleSubmit(e, "edit", book.id)}
+					onSubmit={e => this.props.handleSubmit(e, "edit", book._id)}
 				>
 					<h3>Edit A Book </h3>
+					<div
+						className="close mif-cross mif-2x"
+						onClick={() => this.props.closeEditForm()}
+					/>
 					<div className="row">
 						<div className="form-group cell-md-6">
 							<input

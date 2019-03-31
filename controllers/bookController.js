@@ -16,7 +16,9 @@ exports.book_create = async function(req, res, next) {
 			res.send({ error: "Book already exists in database." });
 		} else {
 			if (req.body.tags) {
-				var tagArray = req.body.tags.split(",");
+				var tagArray = req.body.tags.split(",").map(item => {
+					return item.trim();
+				});
 			}
 
 			let book = new Book({
@@ -72,7 +74,9 @@ exports.book_details = function(req, res, next) {
 
 exports.book_update = function(req, res, next) {
 	if (req.body.tags) {
-		let tagArray = req.body.tags.split(",");
+		let tagArray = req.body.tags.split(",").map(item => {
+			return item.trim();
+		});
 		req.body.tags = tagArray;
 	}
 
@@ -81,7 +85,7 @@ exports.book_update = function(req, res, next) {
 		book
 	) {
 		if (err) return next(err);
-		res.send("Book Updated");
+		res.send({ message: "Book Updated Successfully." });
 		return book;
 	});
 };

@@ -21,7 +21,7 @@ class App extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.displayAllBooks = this.displayAllBooks.bind(this);
 		this.deleteBook = this.deleteBook.bind(this);
-		// this.renderBookForm = this.renderEditForm.bind(this);
+		this.renderEditForm = this.renderEditForm.bind(this);
 		// this.renderList = this.renderList.bind(this);
 	}
 
@@ -73,7 +73,7 @@ class App extends Component {
 		return body;
 	};
 
-	async handleSubmit(evt, option, id = null) {
+	async handleSubmit(evt, option, id) {
 		try {
 			evt.preventDefault();
 			let form = evt.target;
@@ -119,36 +119,50 @@ class App extends Component {
 					this.setState({ formResult: body.error });
 				} else {
 					form.reset();
-					this.renderBookForm();
+					this.closeEditForm();
 					this.setState({ formResult: body.message });
 					this.displayAllBooks();
 				}
 			} else {
+				console.log(body);
 				this.setState({ formResult: "Error Occured", msgClass: "error" });
 			}
 		} catch (err) {
+			console.log(err);
+			console.log(err.prototype.message);
 			throw Error(err);
 		}
 	}
 
-	renderBookForm() {
+	toggleBookForm() {
 		document.querySelector("#add-book-form").classList.toggle("hide");
 		document.querySelector("#add-book-btn").classList.toggle("hide");
 		this.setState({ formResult: "" });
 	}
 
-	renderEditForm = book => {
-		console.log(book);
-		document.querySelector("#page-header").classList.add("hide");
-		document.querySelector("#lists").classList.add("hide");
+	toggleContent(hideForm) {
+		document.querySelector("#page-header").classList.toggle("hide", hideForm);
+		document.querySelector("#lists").classList.toggle("hide", hideForm);
+	}
 
+	renderEditForm = book => {
+		this.toggleContent(true);
 		let form = (
 			<div>
-				<EditForm book={book} />
+				<EditForm
+					book={book}
+					handleSubmit={this.handleSubmit}
+					closeEditForm={this.closeEditForm}
+				/>
 			</div>
 		);
 
 		this.setState({ editForm: form });
+	};
+
+	closeEditForm = () => {
+		this.toggleContent(false);
+		this.setState({ editForm: "" });
 	};
 
 	async deleteBook(element, book) {
@@ -230,7 +244,7 @@ class App extends Component {
 							<button
 								className="button success"
 								id="add-book-btn"
-								onClick={() => this.renderBookForm()}
+								onClick={() => this.toggleBookForm()}
 							>
 								+ Add Book
 							</button>
@@ -243,7 +257,7 @@ class App extends Component {
 									Add A New Book{" "}
 									<div
 										className="close mif-cross mif-2x"
-										onClick={e => this.renderBookForm(e)}
+										onClick={e => this.toggleBookForm(e)}
 									/>
 								</h3>
 								<div className="row">
